@@ -79,6 +79,7 @@ git merge [branch_name] - will merge the branch, NOTE if merging into master you
 git branch -d [branch_name] - deletes the named branch -D is required if there is work that is not commited or merged i.e. you just want to throw any changes away
 
 git clone [remote_branch_name] [local_branch_name] - will create a local clone of the remote branch
+NOTE: when cloning from github you can copy the SSH key and enter this as the remote_branch name, there is no need to enter a local brach name.
 git remote -v - should provide list of all remote branches
 git fetch - will update your local files with any changes commited from remote branch - NOTE: you will need to be in the folder of the local branch
 
