@@ -86,6 +86,12 @@ git fetch - will update your local files with any changes commited from remote b
 git merge origin/master - command to integrate origin/master into your local master branch.
 git push origin [branch_name] - pushes branch changes up to remote origin branch
 
+FORKING:
+if forking a repo on github you can add an upstream to the main repo to continue to get updates from the repo you forked from.
+To do this, copy the https path from the main repo and then type in the following command.
+git remote add upstream [https_path]
+
+git fetch upsteam --will then update your local repo with the parent repo
 
 
 
