@@ -71,6 +71,20 @@ Instead of:
 
 $ git checkout example_branch
 
+git branch -- will who you which branch you are currently on
+git branch [new_branch_name] - will create a new branch
+git checkout [branch_name] - will switch to the named branch
+git merge [branch_name] - will merge the branch, NOTE if merging into master you'll need to switch back to master first and then merge in new branch
+
+git branch -d [branch_name] - deletes the named branch -D is required if there is work that is not commited or merged i.e. you just want to throw any changes away
+
+git clone [remote_branch_name] [local_branch_name] - will create a local clone of the remote branch
+git remote -v - should provide list of all remote branches
+git fetch - will update your local files with any changes commited from remote branch - NOTE: you will need to be in the folder of the local branch
+
+git merge origin/master - command to integrate origin/master into your local master branch.
+git push origin [branch_name] - pushes branch changes up to remote origin branch
+
 
 
 
