@@ -18,3 +18,35 @@ block elements take up the width of their container and can have manually adjust
 inline-block elements can have set width and height, but they can also appear next to each other and do not take up their entire container width.
 The float property can move elements as far left or as far right as possible on a web page.
 You can clear an element’s left or right side (or both) using the clear property.
+
+The syntax for HSL is similar to the decimal form of RGB, 
+though it differs in important ways. The first number represents 
+the degree of the hue, and can be between 0 and 360. The second 
+and third numbers are percentages representing saturation and lightness respectively.
+    
+color: hsl(120, 60%, 70%);
+
+To use opacity in the HSL color scheme, use hsla instead of hsl
+Alpha is a decimal number from zero to one. If alpha is zero, 
+the color will be completely transparent. If alpha is one, 
+the color will be opaque. The value for half-transparent 
+would be 0.5
+
+color: hsla(34, 100%, 50%, 0.1);
+
+The RGB color scheme has a similar syntax for opacity, rgba. 
+Again, the first three values work the same as rgb and the 
+last value is the alpha
+
+color: rgba(234, 45, 98, 0.33);
+
+A little unconventional, but still worth mentioning is how hex 
+colors can also have an alpha value. By adding a two-digit 
+hexadecimal value to the end of the six-digit representation 
+(#52BC8280), or a one-digit hexadecimal value to the end of 
+the three-digit representation (#F003), you can change the 
+opacity of a hexadecimal color. Hex opacity ranges from 00 
+(transparent) to FF (opaque).
+
+Alpha can only be used with HSL, RGB, and hex colors; we 
+cannot add the alpha value to name colors like green.
