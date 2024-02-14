@@ -127,3 +127,6 @@ By observing the dimensions at which a website naturally breaks, you can set med
 
 Check out this li![alt text](screen-sizes.png)st of breakpoints by device widths. Use it as a reference of screen widths to test your website to make certain it looks great across a variety of devices.
 
+https://codepip.com/games/grid-garden/
+https://www.smashingmagazine.com/2011/01/guidelines-for-responsive-web-design/
+https://css-tricks.com/snippets/css/complete-guide-grid/
