@@ -120,3 +120,107 @@ const canIVote = age => {
       return newArray;
     }
     
+    const veggies = ['broccoli', 'spinach', 'cauliflower', 'broccoflower'];
+
+    const politelyDecline = (veg) => {
+          console.log('No ' + veg + ' please. I will have pizza with extra cheese.');
+    }
+    
+    // Write your code here:
+    
+    const declineEverything = anArray => {
+    
+      anArray.forEach(politelyDecline);
+    
+    }
+    
+    declineEverything(veggies);
+    
+    const acceptEverything = anArray => {
+      anArray.forEach(val => {
+        console.log(`Ok, I guess I will eat some ${val}.`);
+      });
+    }
+    
+    acceptEverything(veggies);    
+
+    const numbers = [2, 7, 9, 171, 52, 33, 14]
+
+const toSquare = num => num * num
+
+// Write your code here:
+
+const squareNums = (anArray) => {
+  return anArray.map(toSquare);
+}
+
+squareNums(numbers);
+
+// Write your code here:
+
+const sortYears = (anArray) => {
+  //descending order
+  return anArray.sort((a, b) => b - a);
+}
+
+// Feel free to uncomment the below code to test your function:
+
+const years = [1970, 1999, 1951, 1982, 1963, 2011, 2018, 1922]
+
+console.log(sortYears(years))
+// Should print [ 2018, 2011, 1999, 1982, 1970, 1963, 1951, 1922 ]
+
+const justCoolStuff = (a1, a2) => {
+  return a1.filter(val => a2.includes(val));
+}
+
+// Feel free to uncomment the code below to test your function
+
+const coolStuff = ['gameboys', 'skateboards', 'backwards hats', 'fruit-by-the-foot', 'pogs', 'my room', 'temporary tattoos'];
+
+const myStuff = [ 'rules', 'fruit-by-the-foot', 'wedgies', 'sweaters', 'skateboards', 'family-night', 'my room', 'braces', 'the information superhighway']; 
+
+console.log(justCoolStuff(myStuff, coolStuff))
+
+const isTheDinnerVegan = (anArray) => {
+  return anArray.every(val => val.source === "plant");
+}
+
+// Feel free to comment out the code below to test your function
+
+const dinner = [{name: 'hamburger', source: 'meat'}, {name: 'cheese', source: 'dairy'}, {name: 'ketchup', source:'plant'}, {name: 'bun', source: 'plant'}, {name: 'dessert twinkies', source:'unknown'}];
+
+console.log(isTheDinnerVegan(dinner))
+
+const dogFactory = (name, breed, weight) => {
+  return { name: name, breed: breed, weight: weight };
+}
+console.log(dogFactory('Joe', 'Pug', 27));
+
+// Write function below
+
+const groceries = (myArray) => {
+  let returnArray = [];
+  for (i = myArray.length - 1; i >= 0; i--) {
+//    console.log(i);
+//    console.log(myArray[i].item);
+    returnArray.unshift(myArray[i].item);
+    if (i === myArray.length - 1 && myArray.length > 1) {
+      returnArray.unshift("and");
+    } else if (i !== 0) {
+      returnArray.unshift(",");
+    };
+  }
+  return returnArray.join(" ").replace(" ,", ",");
+}
+
+let retVal = groceries( [{item: 'Bread'}, {item: 'Butter'}] );
+console.log(retVal);
+
+retVal = groceries( [{item: 'Carrots'}, {item: 'Hummus'}, {item: 'Pesto'}, {item: 'Rigatoni'}] );
+
+console.log(retVal);
+
+retVal = groceries( [{item: 'Cheese Balls'}] );
+
+console.log(retVal);
