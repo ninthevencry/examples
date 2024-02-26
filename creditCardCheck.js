@@ -55,7 +55,6 @@ const validateCred = (ccArray) => {
 const findInvalidCards = (credcards) => {
   let invalidCC = [];
   credcards.forEach(ccArray => {
-    //console.log(validateCred(ccArray)
     if (!validateCred(ccArray)) {
       invalidCC.push(ccArray);
     }
