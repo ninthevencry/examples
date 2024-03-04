@@ -380,5 +380,57 @@ const showInfo = () => {
   }
 }
 
-readMore .addEventListener('click', showInfo);
+readMore.addEventListener('click', showInfo);
 
+##Adding Event Handlers
+We looked at registering event handlers using the .addEventListener() method, but there is also another way!
+
+Event Handlers can also be registered by setting an .onevent property on a DOM element (event target). The pattern for registering a specific event is to append an element with .on followed by the lowercased event type name. For instance, if we want to register a click event with this pattern, we would write:
+
+eventTarget.onclick = eventHandlerFunction;
+
+Here, we give the DOM element eventTarget the .onclick property and set its value as the event handler function eventHandlerFunction.
+
+It’s important to know that this .onevent property and .addEventListener() will both register event listeners. With .onevent, it allows for one event handler function to be attached to the event target. However, with the .addEventListener() method , we can add multiple event handler functions. In the later exercises, we’ll be using the .addEventListener() syntax, but we wanted to also introduce the .onevent syntax because both are widely used.
+
+##Removing Event Handlers
+The .removeEventListener() method is used to reverse the .addEventListener() method. This method stops the event target from “listening” for an event to fire when it no longer needs to. .removeEventListener() also takes two arguments:
+
+The event type as a string
+The event handler function
+Check out the syntax of a .removeEventListener() method with a click event:
+
+eventTarget.removeEventListener('click', eventHandlerFunction);
+
+Because there can be multiple event handler functions associated with a particular event, .removeEventListener() needs both the exact event type name and the name of the event handler you want to remove. If .addEventListener() was provided an anonymous function, then that event listener cannot be removed.
+
+##Event Object Properties
+JavaScript stores events as Event objects with their related data and functionalities as properties and methods. When an event is triggered, the event object can be passed as an argument to the event handler function.
+
+function eventHandlerFunction(event){
+   console.log(event.timeStamp);
+}
+
+eventTarget.addEventListener('click', eventHandlerFunction);
+
+In the example above, when the 'click' event is triggered on the eventTarget, the eventHandlerFunction receives event, the Event object, which has information related to the 'click' event. Then, we log the time it took for the event to be triggered since the document was loaded by accessing the .timeStamp property of the event object.
+
+There are pre-determined properties associated with event objects. You can call these properties to see information about the event, for example:
+
+the .target property to reference the element that the event is registered to.
+the .type property to access the name of the event.
+the .timeStamp property to access the number of milliseconds that passed since the document loaded and the event was triggered.
+
+##Event Types
+Beyond the click event, there are all types of DOM events that can fire in a browser! It’s important to know most events in the DOM take place without being noticed because there are no event handlers connected to them.
+
+It’s also important to know some registered events don’t depend on user interactions to fire. For instance, the load event fires after website files completely load in the browser.
+
+Browsers can fire many other events without a user — you can check out a list of events on the MDN Events Reference page.
+
+Many events need user interaction with the DOM to fire. One user interaction event you’ve become familiar with is the click event. A click event fires when the user presses and releases a mouse button on an element in the DOM.
+
+##Keyboard Events
+Other popular types of events are keyboard events! keyboard events are triggered by user interaction with keyboard keys in the browser
+
+Keyboard events have unique properties assigned to their event objects like the .key property that stores the values of the key pressed by the user. You can program the event handler function to react to a specific key, or react to any interaction with the keyboard.
