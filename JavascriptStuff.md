@@ -82,3 +82,15 @@ You have learned a number of useful methods in this lesson as well as how to use
 .reduce() iterates through an array and takes the values of the elements and returns a single value.
 All iterator methods take a callback function, which can be a pre-defined function, a function expression, or an arrow function.
 You can visit the Mozilla Developer Network to learn more about iterator methods (and all other parts of JavaScript!).
+
+Review: Classes
+Way to go! Let’s review what you learned.
+
+Classes are templates for objects.
+JavaScript calls a constructor method when we create a new instance of a class.
+Inheritance is when we create a parent class with properties and methods that we can extend to child classes.
+We use the extends keyword to create a subclass.
+The super keyword calls the constructor() of a parent class.
+Static methods are called on the class, but not on instances of the class.
+In completing this lesson, you’ve taken one step closer to writing efficient, production-level JavaScript. Good luck as you continue to develop your skills and move into intermediate-level concepts.
+
