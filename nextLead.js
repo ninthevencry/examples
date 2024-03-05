@@ -76,3 +76,7 @@ agentDist.agents.sort((a, b) => b.dist - a.dist);
 agentDist.agents.forEach(agent => {
     console.log(agent.name + " " + agent.leads + " " + agent.factor);
 });
+
+
+
+
