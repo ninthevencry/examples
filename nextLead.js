@@ -6,13 +6,13 @@ const noLeadsInPool = 10000;
 const noAgents = 7;
 const agentDist = {
     _agents: [
-      {name: 'AgentX', dist: 100, leads: 0, start: new Date('2024-03-11 10:00:00'), end:  new Date('2024-03-10 16:00:00'), factor: 0},
-      {name: 'AgentB', dist: 50, leads: 0, start:  new Date('2024-03-11 08:00:00'), end:  new Date('2024-03-11 16:00:00'), factor: 0},
-      {name: 'AgentD', dist: 25, leads: 0, start:  new Date('2024-03-11 10:00:00'), end:  new Date('2024-03-11 21:00:00'), factor: 0},
-      {name: 'AgentA', dist: 70, leads: 0, start:  new Date('2024-03-11 08:00:00'), end:  new Date('2024-03-11 16:00:00'), factor: 0},
-      {name: 'AgentZ', dist: 100, leads: 0, start:  new Date('2024-03-11 12:00:00'), end:  new Date('2024-03-11 17:00:00'), factor: 0},
-      {name: 'AgentC', dist: 25, leads: 0, start:  new Date('2024-03-11 09:00:00'), end:  new Date('2024-03-11 17:00:00'), factor: 0},
-      {name: 'AgentY', dist: 100, leads: 0, start:  new Date('2024-03-11 11:00:00'), end:  new Date('2024-03-11 21:00:00'), factor: 0}
+      {name: 'AgentX', dist: 100, setDist: 100, leads: 1, start: new Date('2024-03-11 10:00:00'), end:  new Date('2024-03-10 16:00:00'), factor: 0},
+      {name: 'AgentB', dist: 50, setDist: 50, leads: 1, start:  new Date('2024-03-11 08:00:00'), end:  new Date('2024-03-11 16:00:00'), factor: 0},
+      {name: 'AgentD', dist: 25, setDist: 25, leads: 1, start:  new Date('2024-03-11 10:00:00'), end:  new Date('2024-03-11 21:00:00'), factor: 0},
+      {name: 'AgentA', dist: 70, setDist: 70, leads: 1, start:  new Date('2024-03-11 08:00:00'), end:  new Date('2024-03-11 16:00:00'), factor: 0},
+      {name: 'AgentZ', dist: 100, setDist: 100, leads: 1, start:  new Date('2024-03-11 12:00:00'), end:  new Date('2024-03-11 17:00:00'), factor: 0},
+      {name: 'AgentC', dist: 25, setDist: 25, leads: 1, start:  new Date('2024-03-11 09:00:00'), end:  new Date('2024-03-11 17:00:00'), factor: 0},
+      {name: 'AgentY', dist: 100, setDist: 100, leads: 1, start:  new Date('2024-03-11 11:00:00'), end:  new Date('2024-03-11 21:00:00'), factor: 0}
     ],
     get agents() {
       return this._agents;
@@ -40,7 +40,26 @@ const findAgentWithNoLeads = (agentArray) => {
 
 const findAgentByFactor = (agentArray) => {
     //remove agents from array with an end hour within 30 minutes of current time
-    agentArray = agentArray.filter(agent => agent.end > new Date().getHours() + 0.5);
+    let nowHour = new Date(currentHour.getTime() + oneHour);
+    agentArray = agentArray.filter(agent => agent.end.getHours() > nowHour.getHours());
+
+    agentArray.forEach(agent => {
+        let aDist = 0;
+        agent.dist = agent.setDist;
+        //set a weighting based on start time
+        if (nowHour < agent.start) {
+            //time difference between now and start of shift in hours
+            let timeDiff = (agent.start - nowHour) / 1000 / 60 / 60;
+            let perDiff = timeDiff / agent.start.getHours();
+            aDist = agent.setDist * perDiff;
+        } 
+        else if (nowHour < agent.end) {
+    
+        }
+        agent.dist -= aDist;
+    });
+
+    agentArray = agentArray.filter(agent => agent.dist > 0);
     
     //if there are agents with no leads in the pool then sort by distribution factor.
     //once all agents have a lead then sort by factor
@@ -57,23 +76,9 @@ const findAgentByFactor = (agentArray) => {
 
 //as leads are assigned to agents we need to update the factor for each agent
 const setAgentFactors = (agentArray,totalDist,totalLeads) => {
-    //remove agents from array with an end hour within 30 minutes of current time
-    //agentArray = agentArray.filter(agent => agent.end > new Date().getHours() + 0.5);
-    agentArray.forEach(agent => {
-        
-        let rotaWeighting = 0;
-        //set a weighting based on start time
-        let nowHour = new Date(currentHour.getTime() + oneHour);
-        if (nowHour < agent.start) {
-            //weighting needs to be reduced so that leads are assigned to agents that are in earlier shifts
-            rotaWeighting = nowHour - agent.start;
-        } 
-        else if (nowHour < agent.end) {
-            //weight needs to be increased the nearer the now hour is to the end of the shift
-            rotaWeighting = agent.end - nowHour;
-        }
 
-        agent.factor = ((totalDist / totalLeads) * agent.dist / agent.leads) + rotaWeighting;
+    agentArray.forEach(agent => {
+        agent.factor = ((totalDist / totalLeads) * (agent.dist) / agent.leads);
     });
 }
 
@@ -92,12 +97,14 @@ const checkRota = (agentArray) => {
         //reduce distribution percentage based on hours online
         if (hoursOnline < shiftHours) {
             agent.dist = agent.dist * (hoursOnline / shiftHours);
+            agent.setDist = agent.dist;
         }
     })
 }
 
 //call function to check rota to adjust distribution based on shift pattern
 checkRota(agentDist.agents);
+let unassignedLeads = 0;
 
 const assignLeads = (numberOfLeads) => {
 
@@ -108,48 +115,27 @@ const assignLeads = (numberOfLeads) => {
         );
         //get the top agent and assign the lead
         anAgent = findAgentByFactor(agentDist.agents);
-        anAgent.leads += 1;
+        //if not agent return then add to unassigned leads
+        if (!anAgent) {
+            unassignedLeads += numberOfLeads;
+            setAgentFactors(agentDist.agents,totalDistPer,totalAssignedLeads)
+            break;
+        } else {
+            anAgent.leads += 1;
+        }
         //now update the factors for each agent
         //totalAssignedLeads //totalDistPer
         setAgentFactors(agentDist.agents,totalDistPer,totalAssignedLeads)
     }
 }
 
-/*
-//assign leads
-let totalAssignedLeads = 0;
-for (i = 0; i <= 1000; i++) {
-
-    
-    //replicate adding a new agent into the array mid lead distribution
-    //it will be up to the admin to ensure Rota time is correct otherwise agent will 
-    //recieve too many leads for the time they are online
-    
-    if (i === 500) {
-        agentDist.addAgent('AgentW', 100, 0, 12, 16, 0);
-        totalDistPer += 100; 
-        checkRota(agentDist.agents);
-    }
-
-    //get total leads currently assigned
-    totalAssignedLeads = agentDist.agents.reduce(
-        (partialNum, agent) => partialNum + agent.leads, 0
-    );
-    //get the top agent and assign the lead
-    anAgent = findAgentByFactor(agentDist.agents);
-    anAgent.leads += 1;
-    //now update the factors for each agent
-    //totalAssignedLeads //totalDistPer
-    setAgentFactors(agentDist.agents,totalDistPer,totalAssignedLeads)
-}
-*/
 const showCurrentLeadsAssigned = () => {
 
-    console.log(totalLeads);
+    console.log(`Leads recieved: ${totalLeads} Unassigned leads: ${unassignedLeads}`);
 
     agentDist.agents.sort((a, b) => b.dist - a.dist);
     agentDist.agents.forEach(agent => {
-        console.log(agent.name + " " + agent.leads + " " + agent.factor);
+        console.log(agent.name + " " + agent.leads + " " + agent.factor + " " + agent.factor);
     });
 
 }
