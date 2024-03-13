@@ -139,7 +139,13 @@ for (let j = 0; j < 48; j++) { // 7 days
             agentDist.agents.forEach(agent => {agent.leads = 0; agent.factor = 0;});
         }
     }
-    
+/*
+    if (j % 12 === 0) {
+        agentDist.addAgent('AgentW', 100, 0, 12, 16, 0);
+        totalDistPer += 100; 
+        checkRota(agentDist.agents);
+    }
+*/    
     assignLeads(leads);
     currentHour = new Date(currentHour.getTime() + oneHour);
     console.log(`\tHour ${currentHour.toLocaleTimeString()} Leads: ${leads}`);
