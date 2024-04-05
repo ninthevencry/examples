@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>WorkAround</title>
+  </head>
+  <body>
+    <main>
+      <script>
+
+          // Create input buttons for every company and role represented in the data.
+          renderInputButtons(companies, 'company');
+          renderInputButtons(roles, 'role');
+
+      </script>
+      <!-- The roles and companies <section>s are dynamically created in main.js with renderInputButtons() -->
+      <section id="resultsContainer">
+        <h3>Details:</h3>
+        <p id="salarySelected"> ... </p>
+        <p id="salaryAverageByRole"> ... </p>
+        <p id="salaryAverageByCompany"> ... </p>
+        <p id="salaryAverageIndustry"> ... </p>
+      </section>
+
+      <div id="rates">
+        <div class="option"><input type="radio" name="rate" value="Fixed Rate"> Fixed Rate</div>
+        <div class="option"><input type="radio" name="rate" value="Variable Rate"> Variable Rate</div>
+        <div class="option"><input type="radio" name="rate" value="Multi Rate"> Multi Rate</div>
+        <div id="newRate"></div>
+      </div>
+      <div id="results"></div>
+    </main>
+  </body>
+  <script>
+    let inputElement = document.createElement('input');
+    inputElement.setAttribute('type', 'radio');
+    inputElement.setAttribute('name', 'rate');
+    inputElement.setAttribute('value', 'any rate');
+    let divElement = document.getElementById('newRate');
+    divElement.appendChild(inputElement);
+
+  const updateChecked = () => {
+    var rate_value;
+    var selectedRadio = document.querySelector('input[name="rate"]:checked');
+    if (selectedRadio) {
+      rate_value = selectedRadio.value;
+    } else {
+      // Handle the case when no radio button is checked
+      rate_value = 'No selection';
+    }
+    document.getElementById('results').innerHTML = rate_value;
+  }
+
+  const radios = document.getElementsByName('role');
+
+  //const radios = document.querySelectorAll('input[name="role"]');
+  for (const radio of radios) {
+      radio.onclick = (e) => {
+        console.log(e.target.value);
+        //updateChecked();
+      };
+  }
+
+</script>   
+<script type="module" src="workAround.js" defer></script>
+</html>
