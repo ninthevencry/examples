@@ -51,7 +51,13 @@ function renderInputButtons(labels, groupName) {
 }
 
 function updateResults(){
+
   // Get the current selected company and role from the radio button inputs.
+  if (document.querySelector("input[name='company']:checked") === null || 
+    document.querySelector("input[name='role']:checked") === null) {
+      return;
+  }
+
   const company = document.querySelector("input[name='company']:checked").value;
   const role = document.querySelector("input[name='role']:checked").value;
 
@@ -69,4 +75,5 @@ function updateResults(){
   document.getElementById('salaryAverageByRole').innerText = `The industry average salary for ${role} positions is \$${averageSalaryByRole}`;
   document.getElementById('salaryAverageByCompany').innerText = `The average salary at ${company} is \$${averageSalaryByCompany}`;
   document.getElementById('salaryAverageIndustry').innerText = `The average salary in the Tech industry is \$${industryAverageSalary}`;
+  
 }
