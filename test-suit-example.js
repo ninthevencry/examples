@@ -110,3 +110,180 @@ const name = 'Indecisive Person';
 });
 
 });
+
+/* different behavior tests go here */
+/*
+fs.appendFileSync(path, str) creates a new file at path with the string str as content. If a file at path exists, the string str will be appended to the end.
+fs.readFileSync(path) returns the contents of the file found at path.
+The first test found in this exercise verifies that we can use fs.appendFileSync() to create a file called ./message.txt with the string 'Hello Node.js'. The second test verifies that we can do the same but with an empty string.
+*/
+const assert = require('assert');
+const fs = require('fs');
+let path, str;
+ 
+describe('appendFileSync', () => {
+  it('creates a new file with a string of text', () => {
+ 
+   // Setup
+   path = './message.txt';
+   str = 'Hello Node.js';
+  
+   // Exercise: write to file
+   fs.appendFileSync(path, str);
+ 
+   // Verify: compare file contents to string
+   const contents = fs.readFileSync(path);
+   assert.equal(contents.toString(), str);
+ 
+   // Teardown: restore file
+    fs.unlinkSync(path);
+ });
+ 
+ it('creates a new file with a string of text', () => {
+ 
+   // Setup
+   path = './message.txt';
+   str = '';
+  
+   // Exercise: write to file
+   fs.appendFileSync(path, str);
+ 
+   // Verify: compare file contents to string
+   const contents = fs.readFileSync(path);
+   assert.equal(contents.toString(), str);
+ 
+   // Teardown: restore file
+   fs.unlinkSync(path);
+ });
+});
+
+/*
+Hooks
+*/
+
+const assert = require('assert');
+const fs = require('fs');
+let path, str;
+ 
+describe('appendFileSync', () => {
+  // Write hooks above the tests
+  before(() => {
+    path = './message.txt';
+  });
+  afterEach(() => {
+    fs.unlinkSync(path);
+  });  
+
+  it('writes a string to text file at given path name', () => {
+ 
+   // Setup
+   str = 'Hello Node.js';
+  
+   // Exercise: write to file
+   fs.appendFileSync(path, str);
+ 
+   // Verify: compare file contents to string
+   const contents = fs.readFileSync(path);
+   assert.equal(contents.toString(), str);
+ });
+ 
+ it('writes an empty string to text file at given path name', () => {
+ 
+   // Setup
+   str = '';
+  
+   // Exercise: write to file
+   fs.appendFileSync(path, str);
+ 
+   // Verify: compare file contents to string
+   const contents = fs.readFileSync(path);
+   assert.equal(contents.toString(), str);
+  
+ });
+});
+
+//Rooster example
+
+// Define a rooster
+Rooster = {};
+
+// Return a morning rooster call
+Rooster.announceDawn = () => {
+  return 'cock-a-doodle-doo!';
+}
+
+// Return hour as string
+// Throws Error if hour is not between 0 and 23 inclusive
+Rooster.timeAtDawn = (hour) => {
+  if (hour < 0 || hour > 23) {
+    throw new RangeError;
+  } else {
+    return hour.toString();
+  };
+}
+
+module.exports = Rooster;
+
+/////-------------------------
+
+const assert = require('assert');
+const Rooster = require('../index.js');
+
+describe('Rooster', () => {
+
+  describe('.announceDawn ', () => {
+
+    it('returns a rooster call', () => {
+      // Define expected output
+      const expected = 'cock-a-doodle-doo!';
+
+      // Call Rooster.announceDawn and store result in variable
+      const retVal = Rooster.announceDawn();
+
+      // Use an assert method to compare actual and expected result
+      assert.equal(retVal, expected);
+    });
+
+  });
+
+  describe('.timeAtDawn ', () => {
+
+    it('returns its argument as a string', () => {
+      // Define expected output
+      const inputNumber = 12;
+      const expected = '12';
+
+      // Call Rooster.announceDawn and store result in variable
+      const actual = Rooster.timeAtDawn(inputNumber);
+
+      // Use an assert method to compare actual and expected result
+     assert.strictEqual(actual, expected);
+    });
+
+    it('throws an error if passed a number less than 0', () => {
+      // Define expected output
+      const inputNumber = -1;
+      const expected = RangeError;
+
+      // Use an assert method to compare actual and expected result
+     assert.throws(() => {
+      Rooster.timeAtDawn(inputNumber)
+     }
+     , expected);
+      });
+
+    it('throws an error if passed a number greater than 23', () => {
+
+      const inputNumber = 24;
+      const expected = RangeError;
+
+          assert.throws(() => {
+      Rooster.timeAtDawn(inputNumber)
+     }
+     , expected);
+    });
+
+  });
+
+
+});
